@@ -96,5 +96,5 @@ case "$TERM" in
 esac
 alias ls='ls -bC --color=auto --group-directories-first'
 export DEBEMAIL=jamessan@debian.org
-export DEBFULLNAME="James Vega"
+export DEBFULLNAME="James McCoy"
 export GPG_TTY=$(tty)
