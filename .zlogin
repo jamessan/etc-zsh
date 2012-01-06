@@ -1,5 +1,5 @@
 if [ -x /usr/bin/keychain ]; then
-    eval $(keychain --eval --clear --nogui id_rsa 61326D40)
+    eval $(keychain --eval --clear --nogui id_rsa 61326D40 331BA3DB)
 fi
 if [ -x /usr/bin/uptime ]; then
     uptime
