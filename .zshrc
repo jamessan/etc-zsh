@@ -78,8 +78,8 @@ $pcc[1]└[$chroot_name$pcc[2]%n$pcc[1]@$pcc[2]%m$pcc[1]] %(0?.$pcc[1].$pcc[3])%
 _prompt_setup
 
 typeset -U path
-if [ -d "$HOME/bin" ]; then
-    path=($HOME/bin $path)
+if [ -d "$HOME/.local/bin" ]; then
+    path=($HOME/.local/bin $path)
 fi
 if [ -d "/usr/games" ]; then
     path=($path /usr/games)
