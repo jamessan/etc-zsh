@@ -42,9 +42,15 @@ _vcs_info_setup() {
     zstyle ':vcs_info:svn:*' formats "─($pcc[2]%s$pcc[1])─<$pcc[4]%r$pcc[2]/%S$pcc[1] $pcc[2]%b$pcc[1]>"
     zstyle ':vcs_info:*' actionformats "─($pcc[2]%s$pcc[1])─<$pcc[4]%r$pcc[2]/%S$pcc[1] $pcc[2]%b$pcc[1]%u%c|$pcc[3]%a$pcc[1]>"
     zstyle ':vcs_info:git+set-message:*' hooks show_movein
+    zstyle ':vcs_info:git+set-message:*' hooks show_vcsh
     function +vi-show_movein() {
         if [ ! -z "$PSMOVEIN" ]; then
             hook_com[vcs]="$PSMOVEIN"
+        fi
+    }
+    function +vi-show_vcsh() {
+        if [ ! -z "$VCSH_REPO_NAME" ]; then
+            hook_com[vcs]="vcsh:$VCSH_REPO_NAME"
         fi
     }
 
