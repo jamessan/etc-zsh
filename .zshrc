@@ -74,9 +74,14 @@ _prompt_setup() {
         chroot_name="($(cat /etc/debian_chroot))"
     fi
 
+    hostcolor="$pcc[2]"
+    if [ -n "$SSH_CONNECTION" ]; then
+        hostcolor="$pcc[6]"
+    fi
+
     PS1="\
 $pcc[1]┌─($pcc[2]%D{%Y-%m-%d %H:%M:%S}$pcc[1])\$vcs_info_msg_0_
-$pcc[1]└[$chroot_name$pcc[2]%n$pcc[1]@$pcc[2]%m$pcc[1]] %(0?.$pcc[1].$pcc[3])%? $pcc[1]%#$rst "
+$pcc[1]└[$chroot_name$pcc[2]%n$pcc[1]@$hostcolor%m$pcc[1]] %(0?.$pcc[1].$pcc[3])%? $pcc[1]%#$rst "
     RPROMPT="$pcc[1]($pcc[4]%~$pcc[1])$rst"
     POSTEDIT=$reset_color
 }
