@@ -33,8 +33,7 @@ pcc[6]="%{$reset_color${6:-$fg_no_bold[yellow]}%}"
 # vcs_info wasn't included until 5.0, so ignore all this for older versions
 if ! [[ $ZSH_VERSION < 5.0 ]]; then
     _vcs_info_setup() {
-        # Order is important.  Set git last since $HOME is under git control
-        zstyle ':vcs_info:*' enable bzr hg darcs svn cvs git
+        zstyle ':vcs_info:*' enable git hg svn bzr darcs
         zstyle ':vcs_info:*' use-prompt-escapes true
         zstyle ':vcs_info:*' check-for-changes true
         zstyle ':vcs_info:bzr:*' use-simple true
