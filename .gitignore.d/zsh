@@ -1,0 +1,6 @@
+*
+!/.gitignore.d
+!/.gitignore.d/zsh
+!/.zlogin
+!/.zshenv
+!/.zshrc
