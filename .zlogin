@@ -16,4 +16,3 @@ fi
 if [ -x /usr/bin/calendar ]; then
     calendar
 fi
-[ ! -x /usr/bin/lesspipe ] || eval "$(lesspipe)"
