@@ -111,7 +111,16 @@ case "$TERM" in
     *)
     ;;
 esac
-alias ls='ls -bC --color=auto --group-directories-first'
+case $OSTYPE in
+    *-gnu)
+        alias ls='ls -bC --color=auto --group-directories-first'
+    ;;
+    *bsd*)
+        alias ls='ls -bCG'
+    ;;
+    *)
+    ;;
+esac
 export DEBEMAIL=jamessan@debian.org
 export DEBFULLNAME="James McCoy"
 export GPG_TTY=$(tty)
