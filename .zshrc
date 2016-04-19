@@ -92,6 +92,9 @@ fi
 if [ -d "/usr/games" ]; then
     path=($path /usr/games)
 fi
+if [ -d "$HOME/.cabal/bin" ]; then
+    path=($HOME/.cabal/bin $path)
+fi
 
 case "$TERM" in
     screen*)
