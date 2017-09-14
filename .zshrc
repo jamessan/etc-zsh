@@ -95,6 +95,9 @@ fi
 if [ -d "$HOME/.cabal/bin" ]; then
     path=($HOME/.cabal/bin $path)
 fi
+if [ -d "$HOME/.cargo/bin" ]; then
+    path=($HOME/.cargo/bin $path)
+fi
 
 case "$TERM" in
     screen*)
