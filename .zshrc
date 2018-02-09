@@ -61,8 +61,10 @@ autoload -Uz compinit && compinit
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt appendhistory nomatch prompt_subst
-unsetopt autocd beep extendedglob notify
+setopt APPEND_HISTORY HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
+setopt NOMATCH
+setopt PROMPT_SUBST TRANSIENT_RPROMPT
+unsetopt AUTO_CD BEEP EXTENDED_GLOB NOTIFY
 bindkey -e
 
 _prompt_setup() {
