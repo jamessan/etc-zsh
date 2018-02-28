@@ -30,6 +30,7 @@ pcc[4]="%{$reset_color${4:-$fg_bold[blue]}%}"
 pcc[5]="%{$reset_color${5:-$fg_no_bold[red]}%}"
 pcc[6]="%{$reset_color${6:-$fg_no_bold[yellow]}%}"
 
+typeset -a precmd_functions
 # vcs_info wasn't included until 5.0, so ignore all this for older versions
 if ! [[ $ZSH_VERSION < 5.0 ]]; then
     _vcs_info_setup() {
@@ -54,18 +55,26 @@ if ! [[ $ZSH_VERSION < 5.0 ]]; then
 
     autoload -Uz vcs_info
 
-    precmd() { vcs_info }
+    precmd_functions+=(vcs_info)
 fi
 
 autoload -Uz compinit && compinit
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt APPEND_HISTORY HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
+setopt APPEND_HISTORY HIST_IGNORE_ALL_DUPS SHARE_HISTORY
 setopt NOMATCH
 setopt PROMPT_SUBST TRANSIENT_RPROMPT
 unsetopt AUTO_CD BEEP EXTENDED_GLOB NOTIFY
 bindkey -e
+
+_cyc_config() {
+    cyc_config=
+    if [ -n "$CYC_CONFIG" ]; then
+        cyc_config="(${CYC_CONFIG##*.})"
+    fi
+}
+precmd_functions+=(_cyc_config)
 
 _prompt_setup() {
     chroot_name=
@@ -80,7 +89,7 @@ _prompt_setup() {
 
     PS1="\
 $pcc[1]┌─($pcc[2]%D{%Y-%m-%d %H:%M:%S}$pcc[1])\$vcs_info_msg_0_
-$pcc[1]└[$chroot_name$pcc[2]%n$pcc[1]@$hostcolor%m$pcc[1]] %(0?.$pcc[1].$pcc[3])%? $pcc[1]%#$rst "
+$pcc[1]└[\$cyc_config$chroot_name$pcc[2]%n$pcc[1]@$hostcolor%m$pcc[1]] %(0?.$pcc[1].$pcc[3])%? $pcc[1]%#$rst "
     RPROMPT="$pcc[1]($pcc[4]%~$pcc[1])$rst"
     POSTEDIT=$reset_color
 }
