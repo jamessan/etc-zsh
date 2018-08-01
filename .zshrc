@@ -26,7 +26,7 @@ rst="%{$reset_color%}"
 pcc[1]="%{$reset_color${1:-$fg_no_bold[green]}%}"
 pcc[2]="%{$reset_color${2:-$fg_no_bold[cyan]}%}"
 pcc[3]="%{$reset_color${3:-$fg_bold[red]}%}"
-pcc[4]="%{$reset_color${4:-$fg_bold[blue]}%}"
+pcc[4]="%{$reset_color${4:-$fg_bold[magenta]}%}"
 pcc[5]="%{$reset_color${5:-$fg_no_bold[red]}%}"
 pcc[6]="%{$reset_color${6:-$fg_no_bold[yellow]}%}"
 
