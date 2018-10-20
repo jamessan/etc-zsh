@@ -16,3 +16,10 @@ fi
 if [ -x /usr/bin/calendar ]; then
     calendar
 fi
+if command -v nvim >/dev/null 2>&1; then
+    export VISUAL=nvim
+elif command -v vimx >/dev/null 2>&1; then
+    export VISUAL=vimx
+elif command -v vim >/dev/null 2>&1; then
+    export VISUAL=vim
+fi
