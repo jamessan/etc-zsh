@@ -87,9 +87,23 @@ _prompt_setup() {
         hostcolor="$pcc[6]"
     fi
 
+    # Provide an indicator when a sub-shell is being used so I don't forget
+    # when I do things like run "shell" in gdb
+    # It's turtles all the way down
+    nested=
+    if [ "$SHLVL" -gt 1 ]; then
+        # tmux/screen increase the shell level, which is ok because there is
+        # clear feedback
+        if [ -z "$TMUX" ] && [ -z "$STY" ]; then
+            nested='(🐢)'
+        elif [ "$SHLVL" -gt 2 ]; then
+            nested='(🐢)'
+        fi
+    fi
+
     PS1="\
 $pcc[1]┌─($pcc[2]%D{%Y-%m-%d %H:%M:%S}$pcc[1])\$vcs_info_msg_0_
-$pcc[1]└[\$cyc_config$chroot_name$pcc[2]%n$pcc[1]@$hostcolor%m$pcc[1]] %(0?.$pcc[1].$pcc[3])%? $pcc[1]%#$rst "
+$pcc[1]└[\$cyc_config$nested$chroot_name$pcc[2]%n$pcc[1]@$hostcolor%m$pcc[1]] %(0?.$pcc[1].$pcc[3])%? $pcc[1]%#$rst "
     RPROMPT="$pcc[1]($pcc[4]%~$pcc[1])$rst"
     POSTEDIT=$reset_color
 }
