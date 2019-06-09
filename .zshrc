@@ -152,6 +152,5 @@ case $OSTYPE in
     *)
     ;;
 esac
-export DEBEMAIL=jamessan@debian.org
-export DEBFULLNAME="James McCoy"
 export GPG_TTY=$(tty)
+[ ! -x /usr/bin/lesspipe ] || eval "$(lesspipe)"

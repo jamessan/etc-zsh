@@ -1,1 +1,2 @@
-[ ! -x /usr/bin/lesspipe ] || eval "$(lesspipe)"
+export DEBEMAIL=jamessan@debian.org
+export DEBFULLNAME="James McCoy"
