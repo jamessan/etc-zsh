@@ -124,6 +124,47 @@ if [ -d "$HOME/.cargo/bin" ]; then
     path=($HOME/.cargo/bin $path)
 fi
 
+crack_dump()
+{
+    local core=$(realpath "$1")
+    local coredir=$(dirname "$core")
+
+    if [[ $core =~ \.(tgz|tar\.gz)$ ]]; then
+        (
+            cd "${coredir}"
+            tar axf "${core}"
+            [ -d cyc_bsc ] || tar axf cyc_bsc*
+        )
+        core=${core%.tgz}
+        core=${core%.tar.gz}
+    fi
+    if [ ! -d "${coredir}/cyc_bsc" ]; then
+        (
+            cd "${coredir}"
+            tar axf cyc_bsc*
+        )
+    fi
+    if [ -d "${coredir}/cyc_src" ]; then
+        env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" --src_path "${coredir}"/cyc_src
+    else
+        env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" -s
+    fi
+}
+
+dpsim_docker()
+{
+    local build_type=debug
+    [[ -z $1 ]] || build_type=$1
+    local repo=$(git rev-parse --show-toplevel)
+    local image=$(awk -F: '/^:?dockerimage_build_dp/{print $2 ":" $4}' "${repo}/cyc_app/cyclone/tools/build/artifact_revisions.txt")
+    [[ -n $image ]] || image=$(awk -F= '/IO_BUILD_DOCKER/{print $2}' "${repo}/env.properties")
+    if [[ -n $image ]]; then
+        eval docker run --pid host --privileged -v /var/run/docker.sock:/var/run/docker.sock -v "${repo}":"${repo}":rw --rm -w "${repo}"/cyc_app/"${build_type}"/simulation/bin -i -t --net=host "${image}" bash
+    else
+        2>&1 printf 'Could not determine what docker to use\n'
+    fi
+}
+
 case "$TERM" in
     screen*)
         PROMPT="${PROMPT}%{kzsh\\%}"
