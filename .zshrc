@@ -159,6 +159,7 @@ dpsim_docker()
     [[ ! -d "${repo}/source/cyc_core" ]] || repo="${repo}/source/cyc_core"
     local image=$(awk -F: '/^;?dockerimage_build_dp/{print $2 ":" $4}' "${repo}/cyc_app/cyclone/tools/build/artifact_revisions.txt")
     [[ -n $image ]] || image=$(awk -F= '/IO_BUILD_DOCKER/{print $2}' "${repo}/env.properties")
+    [[ -n $image ]] || image=$(cat "${repo}/.dmcache/link/builder")
     if [[ -n $image ]]; then
         eval docker run --pid host --privileged -v /var/run/docker.sock:/var/run/docker.sock -v "${repo}":"${repo}":rw --rm -w "${repo}"/cyc_app/"${build_type}"/simulation/bin -i -t --net=host "${image}" bash
     else
