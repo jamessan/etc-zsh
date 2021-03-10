@@ -58,6 +58,7 @@ if ! [[ $ZSH_VERSION < 5.0 ]]; then
     precmd_functions+=(vcs_info)
 fi
 
+autoload -U bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 HISTFILE=~/.histfile
 HISTSIZE=1000
@@ -80,6 +81,8 @@ _prompt_setup() {
     chroot_name=
     if [ -f /etc/debian_chroot ]; then
         chroot_name="($(cat /etc/debian_chroot))"
+    elif [ -n "$INSIDE_DATAPATH_DOCKER" ]; then
+        chroot_name="$INSIDE_DATAPATH_DOCKER"
     fi
 
     hostcolor="$pcc[2]"
@@ -122,6 +125,12 @@ if [ -d "$HOME/.cabal/bin" ]; then
 fi
 if [ -d "$HOME/.cargo/bin" ]; then
     path=($HOME/.cargo/bin $path)
+fi
+if [ -d "$HOME/centos8_tools" ]; then
+    path=($HOME/centos8_tools/bin $path)
+    if [ -d "$HOME/centos8_tools/venv/bin" ]; then
+        eval "$($HOME/centos8_tools/venv/bin/register-python-argcomplete dpsim_session)"
+    fi
 fi
 
 crack_dump()
