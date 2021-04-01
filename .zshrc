@@ -154,9 +154,9 @@ crack_dump()
         )
     fi
     if [ -d "${coredir}/cyc_src" ]; then
-        env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" --src_path "${coredir}"/cyc_src
+        c7 env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" --src_path "${coredir}"/cyc_src
     else
-        env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" -s
+        c7 env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" -s
     fi
 }
 
