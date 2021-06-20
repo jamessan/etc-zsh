@@ -129,7 +129,8 @@ fi
 if [ -d "$HOME/centos8_tools" ]; then
     path=($HOME/centos8_tools/bin $path)
     if [ -d "$HOME/centos8_tools/venv/bin" ]; then
-        eval "$($HOME/centos8_tools/venv/bin/register-python-argcomplete dpsim_session)"
+        eval "$($HOME/centos8_tools/venv/bin/register-python-argcomplete dp_session)"
+        eval "$($HOME/centos8_tools/venv/bin/register-python-argcomplete dpcli)"
     fi
 fi
 
@@ -154,9 +155,9 @@ crack_dump()
         )
     fi
     if [ -d "${coredir}/cyc_src" ]; then
-        c7 env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" --src_path "${coredir}"/cyc_src
+        env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" --src_path "${coredir}"/cyc_src
     else
-        c7 env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" -s
+        env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" -s
     fi
 }
 
