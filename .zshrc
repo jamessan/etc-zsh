@@ -126,57 +126,6 @@ fi
 if [ -d "$HOME/.cargo/bin" ]; then
     path=($HOME/.cargo/bin $path)
 fi
-if [ -d "$HOME/centos8_tools" ]; then
-    path=($HOME/centos8_tools/bin $path)
-    if [ -d "$HOME/centos8_tools/venv/bin" ]; then
-        eval "$($HOME/centos8_tools/venv/bin/register-python-argcomplete dp_session)"
-        eval "$($HOME/centos8_tools/venv/bin/register-python-argcomplete dpcli)"
-    fi
-fi
-
-crack_dump()
-{
-    local core=$(realpath "$1")
-    local coredir=$(dirname "$core")
-
-    if [[ $core =~ \.(tgz|tar\.gz)$ ]]; then
-        (
-            cd "${coredir}"
-            tar axf "${core}"
-            [ -d cyc_bsc ] || tar axf cyc_bsc*
-        )
-        core=${core%.tgz}
-        core=${core%.tar.gz}
-    fi
-    if [ ! -d "${coredir}/cyc_bsc" ]; then
-        (
-            cd "${coredir}"
-            tar axf cyc_bsc*
-        )
-    fi
-    if [ -d "${coredir}/cyc_src" ]; then
-        env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" --src_path "${coredir}"/cyc_src "$@"
-    else
-        env TZ=UTC "${coredir}"/cyc_bsc/utils/cyc_gdb.sh "${coredir}"/cyc_bsc/bin/xtremapp "$core" -s "$@"
-    fi
-}
-
-dpsim_docker()
-{
-    local build_type=debug
-    [[ -z $1 ]] || build_type=$1
-    local repo
-    repo=$(git rev-parse --show-toplevel)
-    [[ ! -d "${repo}/source/cyc_core" ]] || repo="${repo}/source/cyc_core"
-    local image
-    mage=$(awk -F= '/IO_BUILD_DOCKER/{print $2}' "${repo}/env.properties")
-    [[ -n $image ]] || image=$(cat "${repo}/.dmcache/link/builder")
-    if [[ -n $image ]]; then
-        eval docker run --pid host --privileged -v /var/run/docker.sock:/var/run/docker.sock -v "${repo}":"${repo}":rw --rm -w "${repo}"/cyc_app/"${build_type}"/simulation/bin -i -t --net=host "${image}" bash
-    else
-        2>&1 printf 'Could not determine what docker to use\n'
-    fi
-}
 
 case "$TERM" in
     screen*)
